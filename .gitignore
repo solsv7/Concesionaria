@@ -47,5 +47,4 @@ Database/mysql_data/**
 
 /Backend/node_modules
 /Frontend/node_modules
-Dockerfile*
-**/Dockerfile
+
