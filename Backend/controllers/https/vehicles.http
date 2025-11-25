@@ -1,0 +1,106 @@
+POST http://localhost:3001/api/vehicles/1/images
+Content-Type: application/json
+
+{
+  "url_imagen": "https://ik.imagekit.io/solvegadev/Toyota_Corolla_Altis_GR_Sport_(front).webp",
+  "img_perfil": false
+
+}
+
+###
+@baseUrl = http://localhost:3001/api
+@authToken = {{authToken}}
+
+### Healthcheck
+GET {{baseUrl}}/health
+
+
+
+### Listar vehículos sin filtros
+GET {{baseUrl}}/vehicles
+
+### Listar vehículos con filtros
+GET {{baseUrl}}/vehicles?marca=1&precio_min=3000000&precio_max=10000000&combustible=1&es_usado=0&anio_min=2018&anio_max=2024&origen=AGENCIA&page=1&pageSize=12
+
+
+
+
+GET {{baseUrl}}/vehicles/1
+
+
+
+
+POST {{baseUrl}}/vehicles
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "id_marca": 1,
+  "modelo": "Corolla 2.0 XEi",
+  "precio": 12000000,
+  "id_combustible": 1,
+  "origen": "AGENCIA",          
+  "es_usado": 0                 
+}
+
+
+
+
+### Cambiar estado de un vehículo (ej: aprobar y pasar a EN_STOCK)
+PATCH {{baseUrl}}/vehicles/3/estado
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "estado": "EN_STOCK"
+}
+
+### Marcar vehículo como INACTIVO 
+PATCH {{baseUrl}}/vehicles/3/estado
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "estado": "INACTIVO"
+}
+
+
+
+
+### Eliminar publicación de vehículo (inactivar)
+DELETE {{baseUrl}}/vehicles/3
+Authorization: Bearer {{authToken}}
+
+
+/**
+ * IMÁGENES DE VEHÍCULOS
+ */
+
+### Agregar imagen a un vehículo
+POST {{baseUrl}}/vehicles/1/images
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "url_imagen": "https://ik.imagekit.io/solvegadev/ejemplo.webp",
+  "img_perfil": 0        
+}
+
+### Cambiar imagen de perfil de un vehículo
+PUT {{baseUrl}}/vehicles/1/imagen-perfil
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "id_imagen": 2
+}
+
+### Reordenar imagen de un vehículo
+PUT {{baseUrl}}/vehicles/1/imagenes/orden
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "id_imagen": 2,
+  "nuevo_orden": 1
+}

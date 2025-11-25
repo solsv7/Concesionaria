@@ -1,0 +1,51 @@
+# ==== Node (en frontend y backend) ====
+node_modules/
+**/node_modules/
+
+npm-debug.log*
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# ==== Builds Vite / React ====
+dist/
+**/dist/
+.vite/
+**/.vite/
+.cache/
+coverage/
+.vite/
+Frontend/.vite/
+
+# ==== Logs ====
+logs/
+*.log
+**/*.log
+
+# ==== IDE / SO ====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ==== Docker / MySQL data ====
+Database/mysql_data/
+Database/mysql_data/*
+Database/mysql_data/**
+
+Database/mysql_data/
+Database/mysql_data/*
+Database/mysql_data/**
+
+# ==== Archivos de entorno (en raíz, frontend y backend) ====
+.env
+.env.local
+.env.*.local
+**/.env
+**/.env.local
+**/.env.*.local
+
+/Backend/node_modules
+/Frontend/node_modules
+Dockerfile*
+**/Dockerfile

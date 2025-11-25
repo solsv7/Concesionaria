@@ -1,0 +1,15 @@
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "juan@gmail.com",
+  "password": "Pruebatecnica"
+}
+###
+PUT http://localhost:3001/api/auth/password
+Content-Type: application/json
+
+{
+  "id_usuario": 7,
+  "nuevaPassword": "Pruebatecnica"
+}

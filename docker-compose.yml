@@ -1,0 +1,72 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: pt-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: concesionaria_db
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    ports:
+      - "3307:3306"   
+    volumes:
+      - ./Database/mysql_data:/var/lib/mysql
+      - ./Database/init:/docker-entrypoint-initdb.d
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: pt-phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    ports:
+      - "8080:80"   
+    depends_on:
+      - db
+
+  backend:
+    build: ./Backend
+    container_name: pt-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: appuser
+      DB_PASSWORD: apppass
+      DB_NAME: concesionaria_db
+      PORT: 3001
+      JWT_SECRET: "16fc546940b7947663eb0b55a46cc1c110254c2b4ecfd37f44d37c53c33cd5e613d378261e5177bcfd8fa1a505d37bacc90231c185b9cd5918ca9a23c04efc3f"
+      CORS_ORIGIN: "http://localhost:5173"
+      IMAGEKIT_PUBLIC_KEY: "public_WTzXI5fC6HDDuHWGP9HsJ6UHm74="
+      IMAGEKIT_PRIVATE_KEY: "private_a7fcKG7aQmRX4gjkzsj5utIWBWY="
+      IMAGEKIT_URL_ENDPOINT: "https://ik.imagekit.io/solvegadev"
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./Backend:/app
+      - /app/node_modules
+
+  frontend:
+    build: ./Frontend
+    container_name: pt-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: "http://localhost:3001"
+      VITE_IMAGEKIT_URL_ENDPOINT: "https://ik.imagekit.io/solvegadev"
+      VITE_IMAGEKIT_PUBLIC_KEY: "public_WTzXI5fC6HDDuHWGP9HsJ6UHm74="
+    volumes:
+      - ./Frontend:/app
+      - /app/node_modules
